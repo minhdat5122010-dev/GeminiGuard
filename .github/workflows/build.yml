@@ -7,10 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Giai nen ma nguon tu zip
+      - name: Giai nen ban MOI NHAT cua ma nguon
         run: |
           ls *.zip
-          for z in *.zip; do unzip -q -o "$z" -d _new; done
+          Z=$(ls *.zip | sort -V | tail -1)
+          echo "Dung file: $Z"
+          rm -rf app gradle build.gradle.kts settings.gradle.kts gradle.properties
+          unzip -q -o "$Z" -d _new
           cp -r _new/GeminiGuard/. .
           rm -rf _new
       - uses: actions/setup-java@v4
