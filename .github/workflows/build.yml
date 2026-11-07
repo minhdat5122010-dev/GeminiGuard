@@ -7,15 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Giai nen ban MOI NHAT cua ma nguon
+      - name: Giai nen GeminiGuard-v2.0.zip
         run: |
-          ls *.zip
-          Z=$(ls *.zip | sort -V | tail -1)
-          echo "Dung file: $Z"
-          rm -rf app gradle build.gradle.kts settings.gradle.kts gradle.properties
-          unzip -q -o "$Z" -d _new
+          set -e
+          ls -la *.zip
+          test -f GeminiGuard-v2.0.zip
+          rm -rf app gradle build.gradle.kts settings.gradle.kts gradle.properties _new
+          unzip -q -o GeminiGuard-v2.0.zip -d _new
           cp -r _new/GeminiGuard/. .
           rm -rf _new
+          echo "=== PHIEN BAN TRONG MA NGUON ==="
+          grep versionName app/build.gradle.kts
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
       - uses: gradle/actions/setup-gradle@v4
